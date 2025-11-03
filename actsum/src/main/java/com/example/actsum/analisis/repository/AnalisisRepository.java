@@ -9,5 +9,5 @@ import com.example.actsum.analisis.model.Analisis;
 @Repository
 public interface AnalisisRepository  extends JpaRepository<Analisis, Long> {    
     List<Analisis> findByRutUsuario(String rutUsuario);
-    List<Analisis> findByLaboratorio(String laboratorio);
+    List<Analisis> findByLaboratorioIgnoreCase(String laboratorio);
 }

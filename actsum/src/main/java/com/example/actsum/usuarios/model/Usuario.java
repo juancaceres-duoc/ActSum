@@ -30,7 +30,7 @@ public class Usuario {
     private String nombre;
 
     @NotBlank(message = "El rol es obligatorio")
-    @Pattern(regexp = "^(ADMIN|TECNICO|CLIENTE)$", message = "El rol debe ser ADMIN, TECNICO o CLIENTE")
+    @Pattern(regexp = "^(?i)(ADMIN|TECNICO|CLIENTE)$", message = "El rol debe ser ADMIN, TECNICO o CLIENTE")
     @Column(nullable = false, length = 20)
     private String rol;
 
@@ -41,4 +41,25 @@ public class Usuario {
     )
     @Column(name="RUT_DNI", nullable = false, unique = true, length = 20)   
     private String rut;
+
+    @PrePersist
+    @PreUpdate
+    private void normalizarCampos() {
+        if (rol != null) {
+            rol = rol.trim().toUpperCase();
+        }
+
+        if (rut != null) {
+            rut = rut.trim().toUpperCase();
+        }
+
+        if (username != null) {
+            username = username.trim();
+        }
+
+        if (nombre != null) {
+            nombre = nombre.trim();
+        }
+    }
+
 }

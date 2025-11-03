@@ -36,7 +36,7 @@ public class UsuarioService {
 
     public List<Usuario> buscarPorRol(String rol) {
         log.info("Buscando usuarios con rol: {}", rol);
-        return usuarioRepository.findByRol(rol);
+        return usuarioRepository.findByRolIgnoreCase(rol);
     }
 
     public Usuario crear(Usuario usuario) {

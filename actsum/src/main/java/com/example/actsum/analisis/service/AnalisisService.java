@@ -36,16 +36,12 @@ public class AnalisisService {
 
     public List<Analisis> buscarPorLaboratorio(String laboratorio) {
         log.info("Buscando análisis en laboratorio: {}", laboratorio);
-        return analisisRepository.findByLaboratorio(laboratorio);
+        return analisisRepository.findByLaboratorioIgnoreCase(laboratorio);
     }
 
     public Analisis crear(Analisis analisis) {
         log.info("Creando nuevo análisis para el RUT de usuario: {}", analisis.getRutUsuario());
-        
-        analisisRepository.findById(analisis.getIdAnalisis()).ifPresent(existingAnalisis -> {
-            log.warn("⚠️ Ya existe un análisis con el ID: {}", analisis.getIdAnalisis());
-            throw new IllegalArgumentException("El ID del análisis ya está registrado");
-        });
+        analisis.setIdAnalisis(null);        
 
         Analisis guardado = analisisRepository.save(analisis);
         log.info("Análisis creado con ID: {}", guardado.getIdAnalisis());

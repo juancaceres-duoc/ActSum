@@ -82,10 +82,10 @@ public class AnalisisController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
         log.info("[DELETE] Eliminando análisis con ID: {}", id);  
         analisisService.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("El análisis con ID " + id + " ha sido eliminado correctamente.");
     }
     
     

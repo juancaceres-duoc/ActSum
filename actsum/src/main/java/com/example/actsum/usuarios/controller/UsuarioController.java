@@ -78,10 +78,10 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/rut/{rut}")
-    public ResponseEntity<Void> eliminar(@PathVariable String rut) {
+    public ResponseEntity<String> eliminar(@PathVariable String rut) {
         log.info("[DELETE] Eliminando usuario con RUT: {}", rut);  
         usuarioService.eliminar(rut);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("El usuario con RUT " + rut + " ha sido eliminado correctamente.");
     }
     
     
