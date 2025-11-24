@@ -21,12 +21,13 @@ public class Usuario {
     @Pattern(
         regexp = "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$",
         message = "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula y un número"
-    )  
+    )
+    @Column(nullable = false, length = 100)
     private String password;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
-    @Column(nullable = false, length = 100)    
+    @Column(nullable = false, length = 100)
     private String nombre;
 
     @NotBlank(message = "El rol es obligatorio")
@@ -39,8 +40,14 @@ public class Usuario {
         regexp = "^[0-9]{7,8}-[0-9Kk]{1}$",
         message = "El RUT debe ingresarse sin puntos y con guion (ej: 12345678-9 o 1234567-K)"
     )
-    @Column(name="RUT_DNI", nullable = false, unique = true, length = 20)   
+    @Column(name="RUT_DNI", nullable = false, unique = true, length = 20)
     private String rut;
+
+    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "El correo debe tener un formato válido")
+    @Size(max = 100, message = "El correo no debe superar los 100 caracteres")
+    @Column(name = "CORREO", nullable = false, unique = true, length = 100)
+    private String correo;
 
     @PrePersist
     @PreUpdate
@@ -59,6 +66,10 @@ public class Usuario {
 
         if (nombre != null) {
             nombre = nombre.trim();
+        }
+
+        if (correo != null) {
+            correo = correo.trim().toLowerCase();
         }
     }
 
