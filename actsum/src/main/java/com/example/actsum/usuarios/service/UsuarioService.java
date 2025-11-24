@@ -26,12 +26,14 @@ public class UsuarioService {
 
     public Usuario buscarPorId(Long id) {
         log.info("Buscando usuario con ID: {}", id);
-        return usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + id));
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + id));
     }
 
     public Usuario buscarPorRut(String rut) {
         log.info("Buscando usuario con RUT: {}", rut);
-        return usuarioRepository.findByRut(rut).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con RUT: " + rut));
+        return usuarioRepository.findByRut(rut)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con RUT: " + rut));
     }
 
     public List<Usuario> buscarPorRol(String rol) {
@@ -50,7 +52,7 @@ public class UsuarioService {
         Usuario guardado = usuarioRepository.save(usuario);
         log.info("Usuario creado con RUT: {}", guardado.getRut());
         return guardado;
-        
+
     }
 
     public Usuario actualizar(String rut, Usuario usuarioActualizado) {
@@ -67,7 +69,7 @@ public class UsuarioService {
         log.info("Usuario actualizado con RUT: {}", actualizado.getRut());
         return actualizado;
     }
-    
+
     public void eliminar(String rut) {
         log.info("Eliminando usuario con RUT: {}", rut);
         if (!usuarioRepository.findByRut(rut).isPresent()) {
@@ -76,5 +78,26 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(buscarPorRut(rut).getIdUsuario());
         log.info("Usuario eliminado con RUT: {}", rut);
+    }
+
+    public Usuario buscarPorCorreo(String correo) {
+        log.info("Buscando usuario con correo: {}", correo);
+        return usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con correo: " + correo));
+    }
+
+    public String recuperarPasswordPorCorreo(String correo) {
+        log.info("Recuperando contraseña para correo: {}", correo);
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+
+        if (usuario == null) {
+            log.warn("⚠️ Intento de recuperación con correo no registrado: {}", correo);
+            throw new ResourceNotFoundException("No existe un usuario con ese correo");
+        }
+
+        String passwordActual = usuario.getPassword();
+
+        return passwordActual;
     }
 }

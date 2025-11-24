@@ -13,4 +13,5 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByRut(String rut);
     List<Usuario> findByRolIgnoreCase(String rol);    
+    Optional<Usuario> findByCorreo(String correo);
 }
